@@ -5,6 +5,11 @@
 //  Created by user on 12/8/22.
 //
 
+// Tried to use @Published with class
+// Tried to use @Binding w/ @State (probably still the answer)
+// Tried Array, not sure how to id each of the 9 cards, however.
+// Real solution: requires MVVM perhaps?
+
 import SwiftUI
 
 struct ContentView: View {
