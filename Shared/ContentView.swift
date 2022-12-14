@@ -5,6 +5,13 @@
 //  Created by C.R. Lee on 12/8/22.
 //
 
+/// To Do:
+/// -[ ] Change Player count to show only either Player's O or X (instead of number count).
+/// -[ ] Update win screen to change copy based on which player is the winner.
+/// -[ ] Fix so grids can only be marked once per round.
+/// -[ ] Figure out how to add win condition for columns and diagonals.
+/// -[ ] Nice to have: Add win counter.
+
 import SwiftUI
 
 struct ContentView: View {
@@ -35,124 +42,66 @@ struct ContentView: View {
     var body: some View {
         VStack {
             if gameOver == false {
+                
                 Text("Turn: \(turnCounter)").padding(50.0)
+                
                 Spacer()
+                
                 VStack {
-                    if turnCounter % 2 == 0 {
-                        HStack {
-                            Text("\(gameBoard[0][0])").onTapGesture {
-                                gameBoard[0][0] = markerO
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[0][1])").onTapGesture {
-                                gameBoard[0][1] = markerO
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[0][2])").onTapGesture {
-                                gameBoard[0][2] = markerO
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                        }
-                        HStack {
-                            Text("\(gameBoard[1][0])").onTapGesture {
-                                gameBoard[1][0] = markerO
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[1][1])").onTapGesture {
-                                gameBoard[1][1] = markerO
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[1][2])").onTapGesture {
-                                gameBoard[1][2] = markerO
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                        }
-                        HStack {
-                            Text("\(gameBoard[2][0])").onTapGesture {
-                                gameBoard[2][0] = markerO
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[2][1])").onTapGesture {
-                                gameBoard[2][1] = markerO
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[2][2])").onTapGesture {
-                                gameBoard[2][2] = markerO
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                        }
-                    } else {
-                        HStack {
-                            Text("\(gameBoard[0][0])").onTapGesture {
-                                gameBoard[0][0] = markerX
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[0][1])").onTapGesture {
-                                gameBoard[0][1] = markerX
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[0][2])").onTapGesture {
-                                gameBoard[0][2] = markerX
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                        }
-                        HStack {
-                            Text("\(gameBoard[1][0])").onTapGesture {
-                                gameBoard[1][0] = markerX
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[1][1])").onTapGesture {
-                                gameBoard[1][1] = markerX
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[1][2])").onTapGesture {
-                                gameBoard[1][2] = markerX
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                        }
-                        HStack {
-                            Text("\(gameBoard[2][0])").onTapGesture {
-                                gameBoard[2][0] = markerX
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[2][1])").onTapGesture {
-                                gameBoard[2][1] = markerX
-                                turnCounter += 1
-                                checkWinCondition()
-                            }
-                            Text("\(gameBoard[2][2])").onTapGesture {
-                                gameBoard[2][2] = markerX
+                    HStack {
+                        ForEach(0..<3) { column in
+                            Text("\(gameBoard[0][column])").onTapGesture {
+                                if turnCounter % 2 == 0 {
+                                    gameBoard[0][column] = markerO
+                                } else {
+                                    gameBoard[0][column] = markerX
+                                }
                                 turnCounter += 1
                                 checkWinCondition()
                             }
                         }
                     }
-                    
+                    HStack {
+                        ForEach(0..<3) { column in
+                            Text("\(gameBoard[1][column])").onTapGesture {
+                                if turnCounter % 2 == 0 {
+                                    gameBoard[1][column] = markerO
+                                } else {
+                                    gameBoard[1][column] = markerX
+                                }
+                                turnCounter += 1
+                                checkWinCondition()
+                            }
+                        }
+                    }
+                    HStack {
+                        ForEach(0..<3) { column in
+                            Text("\(gameBoard[2][column])").onTapGesture {
+                                if turnCounter % 2 == 0 {
+                                    gameBoard[2][column] = markerO
+                                } else {
+                                    gameBoard[2][column] = markerX
+                                }
+                                turnCounter += 1
+                                checkWinCondition()
+                            }
+                        }
+                    }
                 }.font(.system(size: 50))
+
                 Spacer()
+                
                 Button(action: {
+                    turnCounter = 0
                     gameBoard = [["_","_","_"],["_","_","_"],["_","_","_"]]
                 }, label: {
                     Text("Reset Board")
                 }).padding(50.0)
+                
             } else {
+
                 Text("Player X wins! 🎉").font(.system(size: 36))
+                
                 Button(action: {
                     gameOver = false
                     turnCounter = 0
@@ -160,6 +109,7 @@ struct ContentView: View {
                 }, label: {
                     Text("Reset Board")
                 }).padding(50.0)
+                
             }
         }
     }
@@ -180,23 +130,6 @@ struct ContentView: View {
 
 
 
-
-/*
- We need:
- 1. Squares in a grid
- 2. Squares need to keep track of:
-    - If they are owned by a player.
-    - Which player owns them.
-    - If they've been clicked on.
- 3. A grid which understands the current layout of owned squares.
- 4. A method for which to switch between Player 1 and Player 2.
-    - This method also needs to alter which squares are handed out based on the current player.
- 
- Systems include:
- - Squares
- - Grid
- - Memory
- */
 
 
 
