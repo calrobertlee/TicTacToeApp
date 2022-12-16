@@ -9,7 +9,7 @@
 /// -[ ] Change Player count to show only either Player's O or X (instead of number count).
 /// -[ ] Update win screen to change copy based on which player is the winner.
 /// -[ ] Fix so grids can only be marked once per round.
-/// -[ ] Figure out how to add win condition for columns and diagonals.
+/// -[X] Figure out how to add win condition for columns and diagonals.
 /// -[ ] Nice to have: Add win counter.
 
 import SwiftUI
@@ -27,26 +27,37 @@ struct ContentView: View {
  
     // Function to check for win condition.
     func checkWinCondition() {
+        // for-in loop to check if rows are identical.
         for i in 0...2 {
             if gameBoard[i].allSatisfy({ $0 == "O" }){
                 gameOver = true
             }
-        }
-        for i in 0...2 {
             if gameBoard[i].allSatisfy({ $0 == "X" }){
                 gameOver = true
             }
         }
+        // for-in loop to check if columns are identical.
         for i in 0...2 {
+            // Use .map and .filter methods to filter the first element of each of the arrays and return a Bool statement to check if equals to "O" or "X".
             if gameBoard.map({ $0[i] }).filter({ $0 == "O" }).count == 3 {
-                gameOver = true
+               gameOver = true
             }
-        }
-        for i in 0...2 {
             if gameBoard.map({ $0[i] }).filter({ $0 == "X" }).count == 3 {
-                gameOver = true
+               gameOver = true
             }
         }
+        // if to check if diaganols are identical.
+        if [gameBoard[0][0], gameBoard[1][1],gameBoard[2][2]] == ["O","O","O"] ||
+            [gameBoard[0][2], gameBoard[1][1],gameBoard[2][0]] == ["O","O","O"]
+        {
+            gameOver = true
+        }
+        if [gameBoard[0][0], gameBoard[1][1],gameBoard[2][2]] == ["X","X","X"] ||
+            [gameBoard[0][2], gameBoard[1][1],gameBoard[2][0]] == ["X","X","X"]
+        {
+            gameOver = true
+        }
+
    }
     
     var body: some View {
