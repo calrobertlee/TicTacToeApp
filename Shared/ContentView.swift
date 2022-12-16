@@ -6,10 +6,10 @@
 //
 
 /// To Do:
-/// -[ ] Change Player count to show only either Player's O or X (instead of number count).
-/// -[ ] Update win screen to change copy based on which player is the winner.
 /// -[ ] Fix so grids can only be marked once per round.
+/// -[ ] Update win screen to change copy based on which player is the winner.
 /// -[X] Figure out how to add win condition for columns and diagonals.
+/// -[ ] Change 'player count' to instead show 'current player'
 /// -[ ] Nice to have: Add win counter.
 
 import SwiftUI
