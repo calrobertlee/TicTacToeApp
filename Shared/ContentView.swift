@@ -37,6 +37,16 @@ struct ContentView: View {
                 gameOver = true
             }
         }
+        for i in 0...2 {
+            if gameBoard.map({ $0[i] }).filter({ $0 == "O" }).count == 3 {
+                gameOver = true
+            }
+        }
+        for i in 0...2 {
+            if gameBoard.map({ $0[i] }).filter({ $0 == "X" }).count == 3 {
+                gameOver = true
+            }
+        }
    }
     
     var body: some View {
