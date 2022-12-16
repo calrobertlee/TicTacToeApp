@@ -69,6 +69,7 @@ struct ContentView: View {
                 Spacer()
                 
                 VStack {
+                    // First row of buttons.
                     HStack {
                         ForEach(0..<3) { column in
                             Text("\(gameBoard[0][column])").onTapGesture {
@@ -82,6 +83,7 @@ struct ContentView: View {
                             }
                         }
                     }
+                    // Second row of buttons.
                     HStack {
                         ForEach(0..<3) { column in
                             Text("\(gameBoard[1][column])").onTapGesture {
@@ -95,6 +97,7 @@ struct ContentView: View {
                             }
                         }
                     }
+                    // Third row of buttons.
                     HStack {
                         ForEach(0..<3) { column in
                             Text("\(gameBoard[2][column])").onTapGesture {
@@ -112,6 +115,7 @@ struct ContentView: View {
 
                 Spacer()
                 
+                // Resets board.
                 Button(action: {
                     turnCounter = 0
                     gameBoard = [["_","_","_"],["_","_","_"],["_","_","_"]]
@@ -121,8 +125,10 @@ struct ContentView: View {
                 
             } else {
 
+                // Win state screen.
                 Text("Player X wins! 🎉").font(.system(size: 36))
                 
+                // Resets board.
                 Button(action: {
                     gameOver = false
                     turnCounter = 0
