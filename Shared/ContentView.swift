@@ -5,12 +5,6 @@
 //  Created by C.R. Lee on 12/8/22.
 //
 
-/// To Do:
-/// -[ ] Fix so grids can only be marked once per round.
-/// -[ ] Update win screen to change copy based on which player is the winner.
-/// -[X] Figure out how to add win condition for columns and diagonals.
-/// -[ ] Change 'player count' to instead show 'current player'
-/// -[ ] Nice to have: Add win counter.
 
 import SwiftUI
 
@@ -18,8 +12,10 @@ struct ContentView: View {
     
     // Declare the game board and empty array.
     @State var gameBoard:[[String]] = [["_","_","_"],["_","_","_"],["_","_","_"]]
-    @State var turnCounter = 0
+    @State var turnCounter: Int  = 0
     @State var gameOver = false
+    @State var winCounterForO: Int = 0
+    @State var winCounterForX: Int  = 0
     
     // Mark X or O.
     let markerX = "X"
@@ -62,24 +58,44 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            // Displays tic tac toe gameboard if statement is true.
             if gameOver == false {
                 
-                Text("Turn: \(turnCounter)").padding(50.0)
+                // Scoreboard.
+                HStack {
+                    Text("O's score: \(winCounterForO)")
+                        .font(.system(size: 18)).padding(.horizontal)
+                    Text("X's score: \(winCounterForX)")
+                        .font(.system(size: 18)).padding(.horizontal)
+                }
+                // Header displays current players turn.
+                if turnCounter % 2 == 0 {
+                    Text("O's turn")
+                        .padding(40.0).font(.system(size: 32))
+                        .foregroundColor(.orange)
+                } else {
+                    Text("X's turn")
+                        .padding(40.0).font(.system(size: 32))
+                        .foregroundColor(.purple)
+                }
                 
                 Spacer()
                 
+                // VStack for grid of buttons.
                 VStack {
                     // First row of buttons.
                     HStack {
                         ForEach(0..<3) { column in
                             Text("\(gameBoard[0][column])").onTapGesture {
-                                if turnCounter % 2 == 0 {
-                                    gameBoard[0][column] = markerO
-                                } else {
-                                    gameBoard[0][column] = markerX
+                                if gameBoard[0][column] == "_" {
+                                    if turnCounter % 2 == 0 {
+                                        gameBoard[0][column] = markerO
+                                    } else {
+                                        gameBoard[0][column] = markerX
+                                    }
+                                    turnCounter += 1
+                                    checkWinCondition()
                                 }
-                                turnCounter += 1
-                                checkWinCondition()
                             }
                         }
                     }
@@ -87,13 +103,15 @@ struct ContentView: View {
                     HStack {
                         ForEach(0..<3) { column in
                             Text("\(gameBoard[1][column])").onTapGesture {
-                                if turnCounter % 2 == 0 {
-                                    gameBoard[1][column] = markerO
-                                } else {
-                                    gameBoard[1][column] = markerX
+                                if gameBoard[1][column] == "_" {
+                                    if turnCounter % 2 == 0 {
+                                        gameBoard[1][column] = markerO
+                                    } else {
+                                        gameBoard[1][column] = markerX
+                                    }
+                                    turnCounter += 1
+                                    checkWinCondition()
                                 }
-                                turnCounter += 1
-                                checkWinCondition()
                             }
                         }
                     }
@@ -101,13 +119,15 @@ struct ContentView: View {
                     HStack {
                         ForEach(0..<3) { column in
                             Text("\(gameBoard[2][column])").onTapGesture {
-                                if turnCounter % 2 == 0 {
-                                    gameBoard[2][column] = markerO
-                                } else {
-                                    gameBoard[2][column] = markerX
+                                if gameBoard[2][column] == "_" {
+                                    if turnCounter % 2 == 0 {
+                                        gameBoard[2][column] = markerO
+                                    } else {
+                                        gameBoard[2][column] = markerX
+                                    }
+                                    turnCounter += 1
+                                    checkWinCondition()
                                 }
-                                turnCounter += 1
-                                checkWinCondition()
                             }
                         }
                     }
@@ -123,13 +143,23 @@ struct ContentView: View {
                     Text("Reset Board")
                 }).padding(50.0)
                 
+            // Displays winner screen.
             } else {
 
-                // Win state screen.
-                Text("Player X wins! 🎉").font(.system(size: 36))
+                // Displays text of winner.
+                if turnCounter % 2 == 0 {
+                    Text("Player X wins! 🎉").font(.system(size: 36))
+                } else {
+                    Text("Player O wins! 🎉").font(.system(size: 36))
+                }
                 
-                // Resets board.
+                // Resets board, adds point to winner.
                 Button(action: {
+                    if turnCounter % 2 == 0 {
+                        winCounterForX += 1
+                    } else {
+                        winCounterForO += 1
+                    }
                     gameOver = false
                     turnCounter = 0
                     gameBoard = [["_","_","_"],["_","_","_"],["_","_","_"]]
